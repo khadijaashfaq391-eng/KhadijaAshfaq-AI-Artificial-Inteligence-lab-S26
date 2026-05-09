@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Flight Fare Prediction</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Pacifico&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body{
+
+            font-family:'Poppins', sans-serif;
+
+            background: linear-gradient(to right, #ead4f7, #e8d8f5);
+
+            min-height:100vh;
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+            padding:40px;
+
+            overflow-y:auto;
+        }
+
+        .container{
+
+            width:700px;
+
+            background: rgba(255,255,255,0.55);
+
+            backdrop-filter: blur(10px);
+
+            padding:40px;
+
+            border-radius:30px;
+
+            box-shadow:0 8px 25px rgba(0,0,0,0.15);
+
+            position:relative;
+        }
+
+        h2{
+
+            text-align:center;
+
+            font-family:'Pacifico', cursive;
+
+            font-size:60px;
+
+            color:#7a49b7;
+
+            margin-bottom:35px;
+
+        }
+
+        .wave{
+
+            width:100%;
+            border-top:4px dashed #d48cff;
+            margin-top:-10px;
+            margin-bottom:30px;
+            border-radius:50%;
+        }
+
+        label{
+
+            display:block;
+
+            margin-bottom:8px;
+            margin-top:18px;
+
+            font-size:24px;
+
+            color:#8a63c7;
+
+            font-weight:600;
+        }
+
+        .icon{
+            margin-right:10px;
+        }
+
+        input,
+        select{
+
+            width:100%;
+
+            padding:15px;
+
+            border:none;
+
+            border-radius:14px;
+
+            font-size:18px;
+
+            outline:none;
+
+            transition:0.3s;
+        }
+
+        select:focus,
+        input:focus{
+            transform:scale(1.01);
+        }
+
+        /* Different box colors */
+
+        .pink{
+            background:#f8d8ef;
+            border:2px solid #e8a7d2;
+        }
+
+        .blue{
+            background:#dce8fb;
+            border:2px solid #a8c2f1;
+        }
+
+        .yellow{
+            background:#f9edc7;
+            border:2px solid #e9ca65;
+        }
+
+        .green{
+            background:#d8f4dd;
+            border:2px solid #9dd7a8;
+        }
+
+        .purple{
+            background:#e7ddfb;
+            border:2px solid #c4a8f2;
+        }
+
+        button{
+
+            width:100%;
+
+            padding:18px;
+
+            margin-top:30px;
+
+            border:none;
+
+            border-radius:16px;
+
+            font-size:34px;
+
+            font-family:'Pacifico', cursive;
+
+            color:white;
+
+            cursor:pointer;
+
+            background: linear-gradient(to right, #9a6df0, #b58cf7);
+
+            transition:0.3s;
+        }
+
+        button:hover{
+
+            transform:scale(1.03);
+
+            background: linear-gradient(to right, #8a57eb, #a56ef5);
+        }
+
+        h3{
+
+            margin-top:25px;
+
+            text-align:center;
+
+            color:#7a49b7;
+
+            font-size:30px;
+
+            font-family:'Pacifico', cursive;
+        }
+
+        /* Floating decorations */
+
+        .cloud{
+            position:absolute;
+            font-size:70px;
+            color:white;
+            opacity:0.7;
+        }
+
+        .cloud1{
+            left:70px;
+            top:80px;
+        }
+
+        .cloud2{
+            right:70px;
+            bottom:80px;
+        }
+
+        .heart{
+
+            position:absolute;
+
+            color:white;
+
+            font-size:35px;
+
+            opacity:0.7;
+        }
+
+        .heart1{
+            left:120px;
+            bottom:120px;
+        }
+
+        .heart2{
+            right:120px;
+            top:100px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="cloud cloud1">☁</div>
+    <div class="cloud cloud2">☁</div>
+
+    <div class="heart heart1">♡</div>
+    <div class="heart heart2">♡</div>
+
+    <div class="container">
+
+        <h2>Flight Fare Prediction</h2>
+
+        <div class="wave"></div>
+
+        <form action="/predict" method="post">
+
+            <label>
+                <i class="fa-solid fa-plane icon"></i>
+                Airline
+            </label>
+
+            <select name="Airline" class="pink">
+
+                {% for item in airlines %}
+                <option value="{{ item }}">{{ item }}</option>
+                {% endfor %}
+
+            </select>
+
+
+            <label>
+                <i class="fa-solid fa-location-dot icon"></i>
+                Source
+            </label>
+
+            <select name="Source" class="blue">
+
+                {% for item in sources %}
+                <option value="{{ item }}">{{ item }}</option>
+                {% endfor %}
+
+            </select>
+
+
+            <label>
+                <i class="fa-solid fa-location-dot icon"></i>
+                Destination
+            </label>
+
+            <select name="Destination" class="pink">
+
+                {% for item in destinations %}
+                <option value="{{ item }}">{{ item }}</option>
+                {% endfor %}
+
+            </select>
+
+
+            <label>
+                <i class="fa-solid fa-briefcase icon"></i>
+                Total Stops
+            </label>
+
+            <select name="Total_Stops" class="yellow">
+
+                {% for item in stops %}
+                <option value="{{ item }}">{{ item }}</option>
+                {% endfor %}
+
+            </select>
+
+
+            <label>
+                <i class="fa-solid fa-calendar-days icon"></i>
+                Journey Day
+            </label>
+
+            <input type="number" name="Journey_Day" class="green" required>
+
+
+            <label>
+                <i class="fa-solid fa-calendar-days icon"></i>
+                Journey Month
+            </label>
+
+            <input type="number" name="Journey_Month" class="green" required>
+
+
+            <label>
+                <i class="fa-solid fa-clock icon"></i>
+                Duration (Minutes)
+            </label>
+
+            <input type="number" name="Duration" class="purple" required>
+
+
+            <label>
+                <i class="fa-solid fa-plane-departure icon"></i>
+                Departure Hour
+            </label>
+
+            <input type="number" name="Dep_Hour" class="blue" required>
+
+
+            <label>
+                <i class="fa-solid fa-plane-departure icon"></i>
+                Departure Minute
+            </label>
+
+            <input type="number" name="Dep_Min" class="blue" required>
+
+
+            <label>
+                <i class="fa-solid fa-plane-arrival icon"></i>
+                Arrival Hour
+            </label>
+
+            <input type="number" name="Arrival_Hour" class="pink" required>
+
+
+            <label>
+                <i class="fa-solid fa-plane-arrival icon"></i>
+                Arrival Minute
+            </label>
+
+            <input type="number" name="Arrival_Min" class="pink" required>
+
+
+            <label>
+                <i class="fa-solid fa-users icon"></i>
+                Additional Info
+            </label>
+
+            <select name="Additional_Info" class="purple">
+
+                {% for item in infos %}
+                <option value="{{ item }}">{{ item }}</option>
+                {% endfor %}
+
+            </select>
+
+            <button type="submit">
+                ✨ Predict Price ✨
+            </button>
+
+        </form>
+
+        <h3>{{ prediction_text }}</h3>
+
+    </div>
+
+</body>
+</html>
